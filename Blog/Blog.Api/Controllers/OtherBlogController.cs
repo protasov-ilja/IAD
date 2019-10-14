@@ -8,17 +8,12 @@ namespace Blog.Api.Controllers
 	[ApiController]
 	public class OtherBlogController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-		public async Task<IActionResult> RatePost()
+		public async Task<IActionResult> RatePost(string rateData)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}
 
-		public async Task<IActionResult> SubscribeOnBlog()
+		public async Task<IActionResult> SubscribeOnBlog(string blogData)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}

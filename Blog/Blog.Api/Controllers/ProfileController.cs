@@ -8,22 +8,12 @@ namespace Blog.Api.Controllers
 	[ApiController]
 	public class ProfileController : Controller
     {
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
-
-		public async Task<IActionResult> DeleteMassege()
+		public async Task<IActionResult> DeleteMassege(int messageId)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}
 
-		public async Task<IActionResult> CreateMassege()
-		{
-			throw new NotImplementedException("register logic not implemented");
-		}
-
-		public async Task<IActionResult> EditProfile()
+		public async Task<IActionResult> CreateMassage(string messageData)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}

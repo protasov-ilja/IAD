@@ -8,12 +8,7 @@ namespace Blog.Api.Controllers
 	[ApiController]
 	public class EditorController : Controller
     {
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
-
-		public async Task<IActionResult> SaveChanges()
+		public async Task<IActionResult> SaveChanges(string profileData)
 		{
 			throw new NotImplementedException("Save logic not emplemented");
 		}

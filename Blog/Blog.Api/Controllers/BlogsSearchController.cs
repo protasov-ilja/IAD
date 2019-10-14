@@ -8,17 +8,12 @@ namespace Blog.Api.Controllers
 	[ApiController]
 	public class BlogsSearchController : Controller
     {
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
-
-		public async Task<IActionResult> SearchBlogsByName()
+		public async Task<IActionResult> SearchBlogsByName(string blogName)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}
 
-		public async Task<IActionResult> ReadBlog()
+		public async Task<IActionResult> ReadBlog(string blogData)
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}
