@@ -6,21 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
-    public class BlogsSearchController : Controller
+	[Route("api/[controller]")]
+	[ApiController]
+	public class BlogsSearchController : Controller
     {
         public async Task<IActionResult> Index()
         {
             return View();
         }
 
-		public IActionResult SearchBlogsByName()
+		public async Task<IActionResult> SearchBlogsByName()
 		{
-
+			throw new NotImplementedException("register logic not implemented");
 		}
 
-		public IActionResult ReadBlog()
+		public async Task<IActionResult> ReadBlog()
 		{
-
+			throw new NotImplementedException("register logic not implemented");
 		}
     }
 }

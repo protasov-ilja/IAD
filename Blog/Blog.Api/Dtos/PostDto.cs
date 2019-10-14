@@ -1,6 +1,6 @@
-﻿namespace Blog.ViewModels
+﻿namespace Blog.Api.Dtos
 {
-	public class PostViewModel
+	public class PostDto
 	{
 		public string Date { get; set; }
 		public string Text { get; set; }

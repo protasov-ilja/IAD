@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.Controllers
+namespace Blog.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]

@@ -1,21 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blog.Controllers
+namespace Blog.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class RegistrationFormController : Controller
+	public class OtherBlogController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-		public async Task<IActionResult> Register()
+		public async Task<IActionResult> RatePost()
+		{
+			throw new NotImplementedException("register logic not implemented");
+		}
+
+		public async Task<IActionResult> SubscribeOnBlog()
 		{
 			throw new NotImplementedException("register logic not implemented");
 		}
