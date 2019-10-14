@@ -28,7 +28,7 @@ namespace Blog.Api
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDependencies().AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+			Console.WriteLine(Configuration["Test"]);
 			services
 				.AddDbContext<BlogDbContext>(c => c.UseSqlServer(Configuration.GetConnectionString("BlogConnection")));
 		}

@@ -12,7 +12,7 @@ namespace Blog.Infrastructure.Configurations
 			
 			builder.HasOne<Post>()
 				.WithMany()
-				.HasForeignKey(b => b.PostId);
+				.HasForeignKey(b => b.PostId).OnDelete(DeleteBehavior.Restrict);
 
 			builder.HasOne<User>()
 				.WithMany()

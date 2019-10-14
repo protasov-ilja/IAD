@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191014212453_InitialCreate.cs" />
+    <Compile Remove="Migrations\20191014212453_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191014213229_InitialCreate.cs" />
+    <Compile Remove="Migrations\20191014213229_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191014214452_InitialCreate.cs" />
+    <Compile Remove="Migrations\20191014214452_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191014214630_InitialCreate.cs" />
+    <Compile Remove="Migrations\20191014214630_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191014214744_InitialCreate.cs" />
+    <Compile Remove="Migrations\20191014214744_InitialCreate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>

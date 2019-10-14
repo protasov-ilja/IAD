@@ -12,7 +12,7 @@ namespace Blog.Infrastructure.Configurations
 
 			builder.HasOne<UserBlog>()
 				.WithMany()
-				.HasForeignKey(b => b.UserBlogId);
+				.HasForeignKey(b => b.UserBlogId).OnDelete(DeleteBehavior.Restrict);
 
 			builder.HasOne<User>()
 				.WithMany()
