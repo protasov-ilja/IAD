@@ -9,11 +9,11 @@ namespace Blog.Infrastructure.Foundation
 		public static IServiceCollection AddDependencies(this IServiceCollection services)
 		{
 			// AppServices
-
+			services.AddScoped<IAuthService, IAuthService>();
 
 			// Other
 			services.AddScoped<IUnitOfWork, UnitOfWork<BlogDbContext>>();
-
+			
 			return services;
 		}
 	}
