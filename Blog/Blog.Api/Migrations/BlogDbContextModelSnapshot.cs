@@ -123,6 +123,8 @@ namespace Blog.Api.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<string>("RefreshToken");
+
                     b.Property<string>("Status");
 
                     b.HasKey("Id");

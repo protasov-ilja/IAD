@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Blog.Application.AppServices.Authentification
 {
-	public class AuthService
+	public interface ITokenFactory
 	{
-
+		string GenerateToken(int size = 32);
 	}
 }

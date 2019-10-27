@@ -1,4 +1,6 @@
 ﻿using Blog.Api.Dtos;
+using Blog.Application.AppServices.Authentification;
+using Blog.Application.AppServices.Authentification.Key;
 using Blog.Infrastructure.Foundation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -24,27 +26,63 @@ namespace Blog.Api
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
+			const string signingScurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
+			var signingKey = new SigningSymmetricKey(signingScurityKey);
+			services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
+
+			const string jwtSchemeName = "JwtBearer";
+			var signingDecodingKey = (IJWtSigningDecodingKey)signingKey;
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = jwtSchemeName;
+				options.DefaultChallengeScheme = jwtSchemeName;
+			})
+				.AddJwtBearer(jwtSchemeName, JwtBearerOptions =>
 				{
-					options.RequireHttpsMetadata = true;
-					options.TokenValidationParameters = new TokenValidationParameters
+					JwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
 					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = signingDecodingKey.GetDecodingKey(),
+
 						ValidateIssuer = true,
-						ValidIssuer = AuthOptions.Issuer,
+						ValidIssuer = "Blog.Api",
 
 						ValidateAudience = true,
-						ValidAudience = AuthOptions.Audience,
+						ValidAudience = "BlogFrontend",
 
 						ValidateLifetime = true,
 
-						IssuerSigningKey = AuthOptions.GetSymmetricSceurityKey(),
-						ValidateIssuerSigningKey = true
+						ClockSkew = TimeSpan.FromSeconds(5)
 					};
 				});
 
 
 
+
+
+
+			//const string signingSecurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
+			//var signingKey = new SigningSymmetricKey(signingSecurityKey);
+			//services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
+
+			//services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			//	.AddJwtBearer(options =>
+			//	{
+			//		options.RequireHttpsMetadata = true;
+			//		options.TokenValidationParameters = new TokenValidationParameters
+			//		{
+			//			ValidateIssuer = true,
+			//			ValidIssuer = AuthOptions.Issuer,
+
+			//			ValidateAudience = true,
+			//			ValidAudience = AuthOptions.Audience,
+
+			//			ValidateLifetime = true,
+
+			//			IssuerSigningKey = AuthOptions.GetSymmetricSceurityKey(),
+			//			ValidateIssuerSigningKey = true
+			//		};
+			//	});
 
 			services.AddDependencies().AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			Console.WriteLine(Configuration["Test"]);
