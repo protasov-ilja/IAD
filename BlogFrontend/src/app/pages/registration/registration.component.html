@@ -1,0 +1,23 @@
+<div>
+  <h1>BIG LOGO</h1>
+</div>
+<div>
+  <form class="rg-form">
+    <mat-form-field>
+      <input matInput placeholder="Login" name="login" required="" [(ngModel)]="registrationData.login">
+    </mat-form-field>
+    <mat-form-field>
+      <input  type="password" matInput placeholder="Password" name="password" required="" [(ngModel)]="registrationData.password">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="First Name" name="firstName" required="" [(ngModel)]="registrationData.firstName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Last Name" name="lastName" required="" [(ngModel)]="registrationData.lastName">
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="register()">Register</button>
+      <button mat-raised-button color="secondary" (click)="login()">Login</button>
+    </div>
+  </form>
+</div>
