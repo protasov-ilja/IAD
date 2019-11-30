@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Blog.Api.Dtos;
 using Blog.Application.AppServices.Authentification;
 using Microsoft.AspNetCore.Authorization;
+using Blog.Api.Dtos.Account;
 
 namespace Blog.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[AllowAnonymous]
 	public class AccountController : ControllerBase
 	{
 		private readonly IAccountService _accountService;
@@ -78,36 +80,112 @@ namespace Blog.Api.Controllers
 
 		[HttpPost("authorize")]
 		[AllowAnonymous]
-		public async Task<IActionResult> Authorize([FromBody]AuthentificationRequest request)
+		public async Task<ResponseDto<AuthentificationResponseDto>> Authorize([FromBody]AuthentificationRequestDto request)
 		{
 			var login = request.Login;
 			var password = request.Password;
 
 			if (string.IsNullOrEmpty(login) && string.IsNullOrEmpty(password))
 			{
-				return Ok("error login or password!");
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = "error login or password!",
+				};
 			}
 
 			var tokenData = await _accountService.Authentificate(login, password);
 
-			return Ok(tokenData);
+			if (!tokenData.IsSuccessCreated)
+			{
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = tokenData.ErrorInfo
+				};
+			}
+
+			return new ResponseDto<AuthentificationResponseDto>
+			{
+				Result = 200,
+				Data = new AuthentificationResponseDto
+				{
+					RefreshToken = tokenData.RefreshToken,
+					AccessToken = tokenData.AccessToken
+				}
+			};
+		}
+
+		[HttpPost("update-tokens")]
+		[AllowAnonymous]
+		public async Task<ResponseDto<AuthentificationResponseDto>> UpdateTokens([FromBody] UpdateTokensRequestDto request)
+		{
+			if (string.IsNullOrEmpty(request.RefreshToken))
+			{
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = "refresh token data is empty!",
+				};
+			}
+
+			var tokenData = await _accountService.UpdateAccessToken(request.RefreshToken);
+
+			if (!tokenData.IsSuccessCreated)
+			{
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = tokenData.ErrorInfo
+				};
+			}
+
+			return new ResponseDto<AuthentificationResponseDto>
+			{
+				Result = 200,
+				Data = new AuthentificationResponseDto {
+					RefreshToken = tokenData.RefreshToken,
+					AccessToken = tokenData.AccessToken 
+				}
+			};
 		}
 
 		[HttpPost("register")]
 		[AllowAnonymous]
-		public async Task<IActionResult> Register([FromBody]RegistrationRequest request)
+		public async Task<ResponseDto<AuthentificationResponseDto>> Register([FromBody]RegistrationRequestDto request)
 		{
 			var login = request.Login;
 			var password = request.Password;
 
 			if (string.IsNullOrEmpty(login) && string.IsNullOrEmpty(password))
 			{
-				return Ok("error login or password!");
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = "error login or password!",
+				};
 			}
 
 			var tokenData = await _accountService.RegisterUser(login, password, request.FirstName, request.LastName);
 
-			return Ok(tokenData);
+			if (!tokenData.IsSuccessCreated)
+			{
+				return new ResponseDto<AuthentificationResponseDto>
+				{
+					Result = 401,
+					ErrorInfo = tokenData.ErrorInfo
+				};
+			}
+
+			return new ResponseDto<AuthentificationResponseDto>
+			{
+				Result = 200,
+				Data = new AuthentificationResponseDto
+				{
+					RefreshToken = tokenData.RefreshToken,
+					AccessToken = tokenData.AccessToken
+				}
+			};
 		}
 	}
 }

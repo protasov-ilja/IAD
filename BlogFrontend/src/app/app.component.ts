@@ -10,5 +10,5 @@ export class AppComponent {
 
   public isAuthorized(): boolean {
     return true;
-  }
+}
 }

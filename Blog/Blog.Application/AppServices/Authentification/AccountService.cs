@@ -22,13 +22,17 @@ namespace Blog.Application.AppServices.Authentification
 			_userRepository = userRepository;
 		}
 
-		public async Task<string> Authentificate(string login, string password)
+		public async Task<TokensData> Authentificate(string login, string password)
 		{
 			var user = await _userRepository.GetAsync(login);
 
 			if (user == null)
 			{
-				return "string error such user not found!";
+				return new TokensData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "string error such user not found!"
+				};
 			}
 
 			string accessToken = GetAccessToken(login, password);
@@ -37,24 +41,47 @@ namespace Blog.Application.AppServices.Authentification
 			user.RefreshToken = refreshToken;
 			await _unitOfWork.CommitAsync();
 
-			return $"{ accessToken }| {user.Id}|{ refreshToken }";
+			return new TokensData
+			{
+				IsSuccessCreated = true,
+				AccessToken = accessToken,
+				RefreshToken = $"{ user.Id }|{ refreshToken }"
+			};
 		}
 
-		public async Task<string> UpdateAccessToken(string refreshToken)
+		public async Task<TokensData> UpdateAccessToken(string refreshToken)
 		{
 			var tokenData = refreshToken.Split('|');
 			var token = tokenData[1];
 			var userId = tokenData[0];
 
-			User user = await _userRepository.GetAsync(userId);
-			if (user == null)
+			int id = -1;
+			if (!int.TryParse(userId, out id))
 			{
-				return "such user in refresh token not found!";
+				return new TokensData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "such user in refresh token not found!"
+				};
 			}
 
-			if (refreshToken != user.RefreshToken)
+			User user = await _userRepository.GetAsync(id);
+			if (user == null)
 			{
-				return "such refresh token not valid!";
+				return new TokensData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "such user in refresh token not found!"
+				};
+			}
+
+			if (token != user.RefreshToken)
+			{
+				return new TokensData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "such refresh token not valid!"
+				};
 			}
 
 			string accessToken = GetAccessToken(user.Login, user.Password);
@@ -63,16 +90,24 @@ namespace Blog.Application.AppServices.Authentification
 			user.RefreshToken = newRefreshToken;
 			await _unitOfWork.CommitAsync();
 
-			return $"{ accessToken }| { user.Id }|{ refreshToken }";
+			return new TokensData
+			{
+				IsSuccessCreated = true,
+				AccessToken = accessToken,
+				RefreshToken = $"{ user.Id }|{ newRefreshToken }"
+			};
 		}
 
-		public async Task<string> RegisterUser(string login, string password, string firstName, string lastName)
+		public async Task<TokensData> RegisterUser(string login, string password, string firstName, string lastName)
 		{
 			var user = await _userRepository.GetAsync(login);
 
 			if (user != null)
 			{
-				return "error such user already created!";
+				return new TokensData { 
+					IsSuccessCreated = false,
+					ErrorInfo = "error such user already created!"
+				};
 			}
 
 			user = new User(login, password, firstName, lastName);
@@ -84,7 +119,12 @@ namespace Blog.Application.AppServices.Authentification
 			user.RefreshToken = refreshToken;
 			await _unitOfWork.CommitAsync();
 
-			return $"{ accessToken }| {user.Id}|{ refreshToken }";
+			return new TokensData
+			{
+				IsSuccessCreated = true,
+				AccessToken = accessToken,
+				RefreshToken = $"{ user.Id }|{ refreshToken }"
+			};
 		}
 
 		private string GetRefreshToken(string login, string password)

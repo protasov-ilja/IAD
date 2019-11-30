@@ -15,7 +15,7 @@ namespace Blog.Api.Controllers
 	{
 		[AllowAnonymous]
 		[HttpPost]
-		public ActionResult<string> Post([FromBody] AuthentificationRequest request, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+		public ActionResult<string> Post([FromBody] AuthentificationRequestDto request, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
 		{
 			Console.WriteLine($"{request.Login}");
 			// 1. Проверяем данные пользователя из запроса.

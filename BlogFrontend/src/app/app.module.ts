@@ -16,7 +16,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { OtherBlogComponent } from './pages/other-blog/other-blog.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { PostComponent } from './pages/profile/post/post.component';
-import { MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import {MatCardModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import { CookieService } from 'ngx-cookie-service';
 import { AccountService } from './services/account.service';
 
@@ -44,6 +44,7 @@ import { AccountService } from './services/account.service';
     MatIconModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatCardModule,
   ],
   providers: [
     AccountService,

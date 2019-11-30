@@ -1,6 +1,6 @@
 ﻿namespace Blog.Api.Dtos
 {
-	public class RegistrationRequest
+	public class RegistrationRequestDto
 	{
 		public string Login { get; set; }
 		public string Password { get; set; }

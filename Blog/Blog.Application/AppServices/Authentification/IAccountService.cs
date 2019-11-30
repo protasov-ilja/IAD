@@ -7,8 +7,8 @@ namespace Blog.Application.AppServices.Authentification
 {
 	public interface IAccountService
 	{
-		Task<string> Authentificate(string login, string password);
-		Task<string> UpdateAccessToken(string refreshToken);
-		Task<string> RegisterUser(string login, string password, string firstName, string lastName);
+		Task<TokensData> Authentificate(string login, string password);
+		Task<TokensData> UpdateAccessToken(string refreshToken);
+		Task<TokensData> RegisterUser(string login, string password, string firstName, string lastName);
 	}
 }
