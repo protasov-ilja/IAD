@@ -45,20 +45,16 @@ namespace Blog.Api
 						IssuerSigningKey = signingDecodingKey.GetDecodingKey(),
 
 						ValidateIssuer = true,
-						ValidIssuer = "Blog.Api",
+						ValidIssuer = AuthOptions.Issuer,
 
 						ValidateAudience = true,
-						ValidAudience = "BlogFrontend",
+						ValidAudience = AuthOptions.Audience,
 
 						ValidateLifetime = true,
 
-						ClockSkew = TimeSpan.FromSeconds(5)
+						ClockSkew = TimeSpan.FromSeconds(AuthOptions.LifeTime)
 					};
 				});
-
-
-
-
 
 
 			//const string signingSecurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";

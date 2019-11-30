@@ -31,4 +31,9 @@
     <ProjectReference Include="..\Http\Http.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Blogs\" />
+    <Folder Include="Dtos\Profile\" />
+  </ItemGroup>
+
 </Project>

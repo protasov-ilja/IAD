@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Blog.Api.Dtos;
+using Blog.Application.AppServices.Blogs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +15,31 @@ namespace Blog.Api.Controllers
 	[ApiController]
 	public class HomeController : Controller
 	{
+		public IBlogsService _blogsService;
+
+		public HomeController(/*IBlogsService blogsService*/)
+		{
+			//_blogsService = blogsService
+		}
+
+		[HttpGet("user-subscriptions")]
+		public async Task<ResponseDto<List<int>>> GetSubscriptions(int userId)
+		{
+			var data = await _blogsService.GetUserSubscriptions(userId);
+
+			return new ResponseDto<List<int>>
+			{
+				Result = 200
+			};
+		}
+
+
 		[HttpGet("my-name")]
 		public string[] GetMyName()
 		{
-			var nameIdentifier = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+			var login = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
-			return new string[] { nameIdentifier?.Value, "Ilya" };
+			return new string[] { login?.Value, "Ilya" };
 		}
 
 		//[HttpPost("token")]

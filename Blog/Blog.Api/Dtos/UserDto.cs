@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Blog.Api.Dtos
+﻿namespace Blog.Api.Dtos
 {
 	public class UserDto
 	{

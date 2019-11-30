@@ -1,4 +1,5 @@
-﻿using Blog.Application.Repositories;
+﻿using Blog.Application.AppServices.Authentification.Key;
+using Blog.Application.Repositories;
 using Blog.Core.Models;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Abstractions;
@@ -142,10 +143,10 @@ namespace Blog.Application.AppServices.Authentification
 
 			// Generate JWT
 			var token = new JwtSecurityToken(
-				issuer: "Blog.Api",
-				audience: "BlogFrontend",
+				issuer: AuthOptions.Issuer,
+				audience: AuthOptions.Audience,
 				claims: claims,
-				expires: DateTime.Now.AddMinutes(5),
+				expires: DateTime.Now.AddMinutes(AuthOptions.LifeTime),
 				signingCredentials: new SigningCredentials(
 					_signingEncodingKey.GetEncodingKey(),
 					_signingEncodingKey.SigningAlgorithm)
