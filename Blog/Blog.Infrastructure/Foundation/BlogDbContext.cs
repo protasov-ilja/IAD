@@ -1,4 +1,5 @@
-﻿using Blog.Infrastructure.Configurations;
+﻿using Blog.Core.Models;
+using Blog.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Foundation
