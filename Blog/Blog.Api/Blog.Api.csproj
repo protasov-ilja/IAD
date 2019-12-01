@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Dtos\Blogs\" />
-    <Folder Include="Dtos\Profile\" />
   </ItemGroup>
 
 </Project>

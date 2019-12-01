@@ -20,6 +20,11 @@ namespace Blog.Infrastructure.Repositories
 			_context = context;
 		}
 
+		public async Task<UserBlog> GetAsync(int id)
+		{
+			return await Entities.FirstOrDefaultAsync(blog => blog.Id == id);
+		}
+
 		public async Task<UserBlog> GetInfoByUserId(int userId)
 		{
 			return await Entities.FirstOrDefaultAsync(blog => blog.UserId == userId);

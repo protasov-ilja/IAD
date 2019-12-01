@@ -49,7 +49,7 @@ namespace Blog.Api.Controllers
 			return new ResponseDto<AuthentificationResponseDto>
 			{
 				HttpStatus = 200,
-				Data = new AuthentificationResponseDto
+				Result = new AuthentificationResponseDto
 				{
 					RefreshToken = tokenData.RefreshToken,
 					AccessToken = tokenData.AccessToken
@@ -84,16 +84,16 @@ namespace Blog.Api.Controllers
 			return new ResponseDto<AuthentificationResponseDto>
 			{
 				HttpStatus = 200,
-				Data = new AuthentificationResponseDto {
+				Result = new AuthentificationResponseDto {
 					RefreshToken = tokenData.RefreshToken,
 					AccessToken = tokenData.AccessToken 
 				}
 			};
 		}
 
-		[HttpPost("register")]
+		[HttpPost("sign-up")]
 		[AllowAnonymous]
-		public async Task<ResponseDto<AuthentificationResponseDto>> Register([FromBody]RegistrationRequestDto request)
+		public async Task<ResponseDto<AuthentificationResponseDto>> SignUp([FromBody]RegistrationRequestDto request)
 		{
 			var login = request.Login;
 			var password = request.Password;
@@ -121,7 +121,7 @@ namespace Blog.Api.Controllers
 			return new ResponseDto<AuthentificationResponseDto>
 			{
 				HttpStatus = 200,
-				Data = new AuthentificationResponseDto
+				Result = new AuthentificationResponseDto
 				{
 					RefreshToken = tokenData.RefreshToken,
 					AccessToken = tokenData.AccessToken

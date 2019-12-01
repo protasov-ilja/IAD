@@ -4,6 +4,6 @@
 	{
 		public int HttpStatus { get; set; }
 		public string ErrorInfo { get; set; }
-		public T Data { get; set; }
+		public T Result { get; set; }
 	}
 }

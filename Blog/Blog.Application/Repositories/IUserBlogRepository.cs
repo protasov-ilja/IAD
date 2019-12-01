@@ -1,15 +1,15 @@
 ﻿using Blog.Application.AppServices.Blogs;
 using Blog.Core.Models;
-using System;
+using Repositories.Abstractions;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Blog.Application.Repositories
 {
-	public interface IUserBlogRepository
+	public interface IUserBlogRepository : IRepository<UserBlog>
 	{
 		List<BlogDto> GetSubscribedBlogs(int userId);
 		Task<UserBlog> GetInfoByUserId(int userId);
+		Task<UserBlog> GetAsync(int id);
 	}
 }

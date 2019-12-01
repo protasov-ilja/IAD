@@ -38,7 +38,7 @@ namespace Blog.Api.Controllers
 			return new ResponseDto<List<BlogDto>>
 			{
 				HttpStatus = 200,
-				Data = data.Blogs
+				Result = data.Blogs
 			};
 		}
 

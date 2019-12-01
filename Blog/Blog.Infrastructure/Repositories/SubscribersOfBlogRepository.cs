@@ -1,10 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
+using Blog.Application.Repositories;
+using Blog.Core.Models;
+using Blog.Infrastructure.Foundation;
+using Microsoft.EntityFrameworkCore;
+using Repositories;
+using System.Linq;
 
 namespace Blog.Infrastructure.Repositories
 {
-	class SubscribersOfBlogRepository
+	public class SubscribersOfBlogRepository : Repository<SubscriberOfBlog>, ISubscriberOfBlogRepository
 	{
+		public SubscribersOfBlogRepository(BlogDbContext context) : base(context)
+		{
+		}
+
+		public async Task<SubscriberOfBlog> GetAsyncByUserIdAndBlogId(int userId, int blogId)
+		{
+			return await Entities.FirstOrDefaultAsync(subscrition => subscrition.UserBlogId == blogId && subscrition.UserId == userId);
+		}
 	}
 }
