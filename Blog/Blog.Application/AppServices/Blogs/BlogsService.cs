@@ -1,5 +1,4 @@
-﻿using Repositories.Abstractions;
-using System;
+﻿using Blog.Application.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,21 +6,21 @@ namespace Blog.Application.AppServices.Blogs
 {
 	public class BlogsService : IBlogsService
 	{
-		private readonly IUserRepository _userRepository;
-		private readonly IJwtSigningEncodingKey _signingEncodingKey;
-		private readonly IUnitOfWork _unitOfWork;
 		private readonly IUserBlogRepository _blogRepository;
 
-		public AccountService(IUserRepository userRepository, IJwtSigningEncodingKey signingEncodingkey, IUnitOfWork unitOfWork)
+		public BlogsService(IUserBlogRepository blogRepository)
 		{
-			_unitOfWork = unitOfWork;
-			_signingEncodingKey = signingEncodingkey;
-			_userRepository = userRepository;
+			_blogRepository = blogRepository;
 		}
 
-		public Task<List<int>> GetUserSubscriptions(int userId)
+		public async Task<BlogsData> GetUserSubscriptions(int userId)
 		{
-			var user = await _userRepository.GetAsync(login);
+			var subscribedUserBlogs = _blogRepository.GetSubscribedBlogs(userId);
+
+			return new BlogsData {
+				IsSuccessCreated = true,
+				Blogs = subscribedUserBlogs
+			};
 		}
 	}
 }

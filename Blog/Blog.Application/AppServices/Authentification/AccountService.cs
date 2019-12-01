@@ -111,7 +111,13 @@ namespace Blog.Application.AppServices.Authentification
 				};
 			}
 
-			user = new User(login, password, firstName, lastName);
+			user = new User 
+			{
+				Login = login, 
+				Password = password, 
+				FirstName = firstName, 
+				LastName = lastName 
+			};
 			_userRepository.Add(user);
 
 			string accessToken = GetAccessToken(login, password);

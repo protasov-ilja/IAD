@@ -30,7 +30,7 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = "error login or password!",
 				};
 			}
@@ -41,14 +41,14 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = tokenData.ErrorInfo
 				};
 			}
 
 			return new ResponseDto<AuthentificationResponseDto>
 			{
-				Result = 200,
+				HttpStatus = 200,
 				Data = new AuthentificationResponseDto
 				{
 					RefreshToken = tokenData.RefreshToken,
@@ -65,7 +65,7 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = "refresh token data is empty!",
 				};
 			}
@@ -76,14 +76,14 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = tokenData.ErrorInfo
 				};
 			}
 
 			return new ResponseDto<AuthentificationResponseDto>
 			{
-				Result = 200,
+				HttpStatus = 200,
 				Data = new AuthentificationResponseDto {
 					RefreshToken = tokenData.RefreshToken,
 					AccessToken = tokenData.AccessToken 
@@ -102,7 +102,7 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = "error login or password!",
 				};
 			}
@@ -113,14 +113,14 @@ namespace Blog.Api.Controllers
 			{
 				return new ResponseDto<AuthentificationResponseDto>
 				{
-					Result = 401,
+					HttpStatus = 401,
 					ErrorInfo = tokenData.ErrorInfo
 				};
 			}
 
 			return new ResponseDto<AuthentificationResponseDto>
 			{
-				Result = 200,
+				HttpStatus = 200,
 				Data = new AuthentificationResponseDto
 				{
 					RefreshToken = tokenData.RefreshToken,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,41 +16,39 @@ namespace Blog.Api.Controllers
 	{
 		public IBlogsService _blogsService;
 
-		public HomeController(/*IBlogsService blogsService*/)
+		public HomeController(IBlogsService blogsService)
 		{
-			//_blogsService = blogsService
+			_blogsService = blogsService;
 		}
 
 		[HttpGet("user-subscriptions")]
-		public async Task<ResponseDto<List<int>>> GetSubscriptions(int userId)
+		public async Task<ResponseDto<List<BlogDto>>> GetSubscriptions([FromQuery] int userId)
 		{
 			var data = await _blogsService.GetUserSubscriptions(userId);
 
-			return new ResponseDto<List<int>>
+			if (!data.IsSuccessCreated)
 			{
-				Result = 200
+				return new ResponseDto<List<BlogDto>>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "Server error!"
+				};
+			}
+
+			return new ResponseDto<List<BlogDto>>
+			{
+				HttpStatus = 200,
+				Data = data.Blogs
 			};
 		}
 
-
 		[HttpGet("my-name")]
-		public string[] GetMyName()
+		public async Task<string[]> GetMyName()
 		{
 			var login = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
 			return new string[] { login?.Value, "Ilya" };
 		}
-
-		//[HttpPost("token")]
-		//public ActionResult GetToken()
-		//{
-
-		//}
-
-		//public async Task<IActionResult> ShowSubscriptionBlogs()
-		//{
-		//	throw new NotImplementedException("register logic not implemented");
-		//}
 
 		//public async Task<IActionResult> ReadBlog(string blogData)
 		//{
