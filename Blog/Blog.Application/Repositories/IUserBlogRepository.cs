@@ -10,5 +10,6 @@ namespace Blog.Application.Repositories
 	public interface IUserBlogRepository
 	{
 		List<BlogDto> GetSubscribedBlogs(int userId);
+		Task<UserBlog> GetInfoByUserId(int userId);
 	}
 }
