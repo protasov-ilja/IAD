@@ -20,4 +20,12 @@ export class BlogItemComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  public subscribe(blogId: number) {
+
+  }
+
+  public readBlog(blogId: number) {
+
+  }
 }

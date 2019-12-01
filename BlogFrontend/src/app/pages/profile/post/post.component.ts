@@ -26,4 +26,11 @@ export class PostComponent implements OnInit {
   ngOnInit() {
   }
 
+  public setLike() {
+
+  }
+
+  public setDislike() {
+
+  }
 }

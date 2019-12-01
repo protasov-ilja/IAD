@@ -7,9 +7,9 @@
     <p>{{ blog.info }}</p>
   </mat-card-content>
   <mat-card-actions class="inline-block">
-    <button mat-raised-button color="primary">Read</button>
+    <button mat-raised-button color="primary" (click)="readBlog(blog.id)">Read</button>
     <div *ngIf=!blog.isSubscribed class="inline-block">
-      <button mat-raised-button color="accent">Subscribe</button>
+      <button mat-raised-button color="accent" (click)="subscribe(blog.id)">Subscribe</button>
     </div>
   </mat-card-actions>
 </mat-card>
