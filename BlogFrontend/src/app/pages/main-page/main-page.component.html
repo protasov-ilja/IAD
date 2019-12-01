@@ -1,8 +1,8 @@
 <div class="header">
-  <h1>BLOG NAME</h1>
+  <h1>Your subscriptions</h1>
 </div>
 <div class="scroll-list">
-  <li *ngFor="let blog-item of blogs; ">
-
-  </li>
+  <app-blog-item *ngFor="let blog of subscribedBlogs" [blog]="blog"></app-blog-item>
 </div>
+
+

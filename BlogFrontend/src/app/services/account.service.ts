@@ -19,7 +19,7 @@ export class AccountService extends BaseService {
   }
 
   public async signUp(registrationRequest: RegistrationRequestDto): Promise<boolean> {
-    const url = `{this.accountUrl}/sign-up`;
+    const url = `${this.accountUrl}/sign-up`;
 
     const response: AuthResponseDto = await this.post(url, registrationRequest);
     if (!response) {
@@ -33,7 +33,7 @@ export class AccountService extends BaseService {
   }
 
   public async authenticate(authRequest: AuthRequestDto): Promise<boolean> {
-    const url = `${this.accountUrl}/auth`;
+    const url = `${this.accountUrl}/authorize`;
 
     const response: AuthResponseDto = await this.post(url, authRequest);
     if (!response) {

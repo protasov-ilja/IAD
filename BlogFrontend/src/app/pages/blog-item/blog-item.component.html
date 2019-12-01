@@ -1,23 +1,15 @@
-<div class="item-wrapper">
-  <div class="blog-image">
-    <img src="[blogImage]" alt="blog image">
-  </div>
-  <div class="blog-data">
-    <div class="item-header">
-      <h3>UserName</h3>
-      <h4> date: [itemDate]</h4>
+<mat-card class="blog-card-content">
+  <mat-card-header class="inline-block">
+    <img mat-card-image src="{{ blog.imageUri }}" class="blog-icon" alt="Blog icon">
+  </mat-card-header>
+  <mat-card-title class="inline-block">{{ blog.name }}</mat-card-title>
+  <mat-card-content class="blog-info-container">
+    <p>{{ blog.info }}</p>
+  </mat-card-content>
+  <mat-card-actions class="inline-block">
+    <button mat-raised-button color="primary">Read</button>
+    <div *ngIf=!blog.isSubscribed class="inline-block">
+      <button mat-raised-button color="accent">Subscribe</button>
     </div>
-    <div>
-      <p>[blogInfo]</p>
-      <button>Read</button>
-      <button>Subscribe</button>
-    </div>
-  </div>
-
-</div>
-
-
-<p>blog-item works!</p>
-<div class="logo">
-  <img src="../public/img/logo.png" alt="Logo">
-</div>
+  </mat-card-actions>
+</mat-card>

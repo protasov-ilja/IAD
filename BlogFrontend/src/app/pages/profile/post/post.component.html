@@ -1,16 +1,17 @@
 <mat-card class="post-card">
-  <mat-card-header>
-    <div mat-card-avatar class="header-card-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    <button mat-button>REMOVE</button>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="user photo">
-  <mat-card-content>
-    <p> Lore ipsune Lore ipsune Lore ipsune Lore ipsune Lore ipsune</p>
-  </mat-card-content>
+  <div class="card-container">
+    <img class="post-image" mat-card-image src="{{ post.imageUri }}" alt="user photo">
+    <mat-card-header class="inline">
+      <mat-card-title class="inline">{{ post.title }}</mat-card-title>
+      <mat-card-subtitle class="inline">{{ post.date | date }}</mat-card-subtitle>
+      <button class="inline" mat-button color="warn">Remove</button>
+    </mat-card-header>
+    <mat-card-content>
+      <p> {{ post.text }}</p>
+    </mat-card-content>
+  </div>
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>DISLIKE</button>
+    <button mat-button color="accent">LIKE: {{ post.likesAmount }}</button>
+    <button mat-button color="primary">DISLIKE: {{ post.dislikesAmount }}</button>
   </mat-card-actions>
 </mat-card>

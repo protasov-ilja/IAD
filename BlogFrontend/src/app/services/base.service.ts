@@ -5,7 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 
 export interface Response<R> {
   result: R;
-  statusCode: number;
+  httpStatus: number;
+  errorInfo: string;
 }
 
 export class BaseService {
@@ -19,25 +20,25 @@ export class BaseService {
   protected async get<HttpResult>(url: string): Promise<HttpResult> {
     let response: Response<HttpResult> = await this.tryGet(url);
 
-    if (response.statusCode === 200) {// TODO: add constants class
+    if (response.httpStatus === 200) {// TODO: add constants class
       return response.result;
     }
 
-    if (response.statusCode !== 401) {// TODO: add constants class
+    if (response.httpStatus !== 401) {
       return null;
     }
 
     const isTokensUpdated: boolean = await this.updateTokens();
     if (!isTokensUpdated) {
-      this.router.navigate([`/authorization`]);
+      await this.router.navigate([`/login`]);
       // throw 'You are not authorized';
     }
 
     response = await this.tryGet(url);
-    if (response.statusCode === 200) {// TODO: add constants class
+    if (response.httpStatus === 200) {
       return response.result;
     } else {
-      this.router.navigate([`/authorization`]);
+      await this.router.navigate([`/login`]);
       // throw 'You are not authorized';
     }
   }
@@ -45,25 +46,25 @@ export class BaseService {
   protected async post<HttpRequest, HttpResponse>(url: string, request: HttpRequest): Promise<HttpResponse> {
     let response: Response<HttpResponse> = await this.tryPost(url, request);
 
-    if (response.statusCode === 200) {// TODO: add constants class
+    if (response.httpStatus === 200) {
       return response.result;
     }
 
-    if (response.statusCode !== 401) {// TODO: add constants class
+    if (response.httpStatus !== 401) {
       return null;
     }
 
     const isTokensUpdated: boolean = await this.updateTokens();
     if (!isTokensUpdated) {
-      this.router.navigate([`/authorization`]);
+      await this.router.navigate([`/login`]);
       // throw 'You are not authorized';
     }
 
     response = await this.tryPost(url, request);
-    if (response.statusCode === 200) {// TODO: add constants class
+    if (response.httpStatus === 200) {
       return response.result;
     } else {
-      this.router.navigate([`/authorization`]);
+      await this.router.navigate([`/login`]);
       // throw 'You are not authorized';
     }
   }
@@ -77,10 +78,10 @@ export class BaseService {
 
     try {
       const response: HttpR = await this.http.get<HttpR>(url, httpOptions).toPromise();
-      result.statusCode = 200; // TODO: add constants class
+      result.httpStatus = 200;
       result.result = response;
     } catch (error) {
-      result.statusCode = error.status;
+      result.httpStatus = error.status;
     }
 
     return result;
@@ -95,10 +96,10 @@ export class BaseService {
 
     try {
       const response: HttpResponse = await this.http.post<HttpResponse>(url, request, httpOptions).toPromise();
-      result.statusCode = 200;
+      result.httpStatus = 200;
       result.result = response;
     } catch (error) {
-      result.statusCode = error.status;
+      result.httpStatus = error.status;
     }
 
     return result;
