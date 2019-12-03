@@ -5,7 +5,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/home",
-      "applicationUrl": "https://localhost:4772",
+      "applicationUrl": "http://localhost:4772",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "protasov"
       }

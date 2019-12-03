@@ -27,10 +27,10 @@ export class PostComponent implements OnInit {
   }
 
   public setLike() {
-
+    this.post.likesAmount++;
   }
 
   public setDislike() {
-
+    this.post.dislikesAmount++;
   }
 }

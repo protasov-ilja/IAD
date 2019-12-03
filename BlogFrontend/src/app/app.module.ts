@@ -19,6 +19,7 @@ import { PostComponent } from './pages/profile/post/post.component';
 import {MatCardModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import { CookieService } from 'ngx-cookie-service';
 import { AccountService } from './services/account.service';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AccountService } from './services/account.service';
     ProfileComponent,
     OtherBlogComponent,
     SearchPageComponent,
-    PostComponent
+    PostComponent,
+    EditProfileComponent
   ],
   imports: [
     MaterialDesignModule,

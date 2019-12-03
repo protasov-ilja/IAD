@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface BlogData {
   id: number;
@@ -16,16 +17,21 @@ export interface BlogData {
 export class BlogItemComponent implements OnInit {
   @Input() blog: BlogData;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   public subscribe(blogId: number) {
+    this.blog.isSubscribed = true;
+  }
 
+  public unsubscribe(blogId: number) {
+    this.blog.isSubscribed = false;
   }
 
   public readBlog(blogId: number) {
-
+    this.router.navigate(['/profile'], {state: {data: blogId}});
+    // <a [routerLink]=”/b” [state]=”{ data: {...}}”>Go to B</a>
   }
 }

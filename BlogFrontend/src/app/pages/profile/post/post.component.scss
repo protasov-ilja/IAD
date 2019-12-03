@@ -5,8 +5,15 @@
 .post-image {
   max-width: 5%;
   margin: 0 auto;
+  border-radius: 100px;
+  border: solid black;
+  box-shadow: 0 0 7px #666;
 }
 
 .inline {
   display: inline-block;
+}
+
+.post-header {
+  width: 300px;
 }

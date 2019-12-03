@@ -1,1 +1,12 @@
-<p>search-page works!</p>
+<div class="header">
+  <h1>Search blog by name</h1>
+</div>
+<mat-form-field hideRequiredMarker>
+  <label>
+    <input matInput placeholder="Search blog by name" name="search">
+  </label>
+</mat-form-field>
+
+<div class="scroll-list">
+  <app-blog-item *ngFor="let blog of blogs" [blog]="blog"></app-blog-item>
+</div>

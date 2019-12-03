@@ -1,0 +1,25 @@
+<div class="edit-container">
+  <form class="edit-form">
+    <label name="login" [(ngModel)]="profile.userLogin"></label>
+    <mat-form-field>
+      <label>
+        <input type="password" matInput placeholder="Password" name="password" required="" [(ngModel)]="profile.userPassword">
+      </label>
+    </mat-form-field>
+    <mat-form-field hideRequiredMarker>
+      <input matInput placeholder="First Name" name="firstName" [(ngModel)]="profile.firstName">
+    </mat-form-field>
+    <mat-form-field hideRequiredMarker>
+      <input matInput placeholder="Last Name" name="lastName" [(ngModel)]="profile.lastName">
+    </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Blog Name" name="blogName" required="" [(ngModel)]="profile.blogName">
+      </mat-form-field>
+      <mat-form-field hideRequiredMarker>
+        <textarea matInput placeholder="Blog Info" name="blogInfo" [(ngModel)]="profile.blogInfo"></textarea>
+      </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="save()">Save Changes</button>
+    </div>
+  </form>
+</div>

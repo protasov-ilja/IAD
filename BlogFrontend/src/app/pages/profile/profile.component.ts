@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PostData} from './post/post.component';
+import {Router} from '@angular/router';
 
 export interface UserBlogData {
   blogId: number;
@@ -20,7 +21,7 @@ export class ProfileComponent implements OnInit {
 
   public blogData: UserBlogData;
 
-  constructor() {
+  constructor(private router: Router) {
     this.blogData = {
       blogId: 1,
       userId: 1,
@@ -46,6 +47,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public edit() {
+    this.router.navigate(['/profile/edit']);
   }
 
 }

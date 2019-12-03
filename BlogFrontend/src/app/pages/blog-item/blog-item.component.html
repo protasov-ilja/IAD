@@ -1,15 +1,20 @@
 <mat-card class="blog-card-content">
-  <mat-card-header class="inline-block">
+  <mat-card-header class="blog-card-header inline-block">
     <img mat-card-image src="{{ blog.imageUri }}" class="blog-icon" alt="Blog icon">
   </mat-card-header>
-  <mat-card-title class="inline-block">{{ blog.name }}</mat-card-title>
-  <mat-card-content class="blog-info-container">
-    <p>{{ blog.info }}</p>
-  </mat-card-content>
-  <mat-card-actions class="inline-block">
+  <div class="inline-block blog-card-container">
+    <mat-card-title>{{ blog.name }}</mat-card-title>
+    <mat-card-content class="blog-info-container">
+      <p class="blog-info">{{ blog.info }}</p>
+    </mat-card-content>
+  </div>
+  <mat-card-actions class="buttons inline-block">
     <button mat-raised-button color="primary" (click)="readBlog(blog.id)">Read</button>
     <div *ngIf=!blog.isSubscribed class="inline-block">
       <button mat-raised-button color="accent" (click)="subscribe(blog.id)">Subscribe</button>
+    </div>
+    <div *ngIf=blog.isSubscribed class="inline-block">
+      <button mat-raised-button color="warn" (click)="unsubscribe(blog.id)">Unsubscribe</button>
     </div>
   </mat-card-actions>
 </mat-card>
