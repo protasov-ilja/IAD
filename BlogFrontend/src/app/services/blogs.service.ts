@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BaseService } from './base.service';
-import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {BaseService} from './base.service';
+import {HttpClient} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
 import {RegistrationRequestDto} from '../dtos/account/registration-request.dto';
 import {AuthResponseDto} from '../dtos/account/auth-response.dto';
+import {BlogDto} from '../dtos/blog/blog.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,12 @@ export class BlogsService extends BaseService {
     this.cookieService.set(this.refreshTokenField, response.refreshToken);
 
     return true;
+  }
+
+  public async getUserSubscriptions(): Promise<BlogDto[]> {
+    const url = `${this.homeControllerUrl}/user-subscriptions`;
+
+    return await this.get(url);
   }
 
 

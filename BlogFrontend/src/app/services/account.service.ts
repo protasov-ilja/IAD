@@ -39,7 +39,9 @@ export class AccountService extends BaseService {
     if (!response) {
       return false;
     }
-
+    console.log('authenticate');
+    console.log(response.accessToken);
+    console.log(response.refreshToken);
     this.cookieService.set(this.accessTokenField, response.accessToken);
     this.cookieService.set(this.refreshTokenField, response.refreshToken);
 

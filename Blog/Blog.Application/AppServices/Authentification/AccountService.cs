@@ -105,7 +105,8 @@ namespace Blog.Application.AppServices.Authentification
 
 			if (user != null)
 			{
-				return new TokensData { 
+				return new TokensData 
+				{ 
 					IsSuccessCreated = false,
 					ErrorInfo = "error such user already created!"
 				};

@@ -21,6 +21,32 @@ namespace Blog.Infrastructure.Repositories
 			_context = context;
 		}
 
+		public async Task<Post> GetAsync(int id)
+		{
+			return await Entities.FirstOrDefaultAsync(post => post.Id == id);
+		}
+
+		public List<PostDto> GetPostsByBlog(int blogId)
+		{
+			var postsOfBlog = (from posts in _context.Set<Post>()
+							   join userBlog in _context.Set<UserBlog>().Where(x => x.Id == blogId) on posts.UserBlogId equals userBlog.Id
+							   select new PostDto
+							   {
+								   Id = posts.Id,
+								   Title = posts.Title,
+								   UserId = posts.UserId,
+								   BlogId = userBlog.Id,
+								   PublishDateOnUtc = posts.PublishDateOnUtc,
+								   Text = posts.Text
+							   }
+				   ).ToList();
+
+			foreach (var p in postsOfBlog)
+				Console.WriteLine($"{ p.Id } ({ p.Title }) - { p.BlogId } { p.UserId }");
+
+			return postsOfBlog;
+		}
+
 		public void GetPostsDataByBlog(int blogId)
 		{
 			var p = new List<Post>

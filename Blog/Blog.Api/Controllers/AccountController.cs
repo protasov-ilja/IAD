@@ -4,6 +4,7 @@ using Blog.Api.Dtos;
 using Blog.Application.AppServices.Authentification;
 using Microsoft.AspNetCore.Authorization;
 using Blog.Api.Dtos.Account;
+using Blog.Application.AppServices.Blogs;
 
 namespace Blog.Api.Controllers
 {
@@ -13,10 +14,12 @@ namespace Blog.Api.Controllers
 	public class AccountController : ControllerBase
 	{
 		private readonly IAccountService _accountService;
+		private readonly IBlogsService _blogsService;
 
-		public AccountController(IAccountService accountService)
+		public AccountController(IAccountService accountService, IBlogsService blogsService)
 		{
 			_accountService = accountService;
+			_blogsService = blogsService;
 		}
 
 		[HttpPost("authorize")]
@@ -108,6 +111,7 @@ namespace Blog.Api.Controllers
 			}
 
 			var tokenData = await _accountService.RegisterUser(login, password, request.FirstName, request.LastName);
+			await _blogsService.CreateBlog(login);
 
 			if (!tokenData.IsSuccessCreated)
 			{

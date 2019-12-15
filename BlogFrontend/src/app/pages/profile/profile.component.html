@@ -1,3 +1,4 @@
+<script src="../login/login.component.spec.ts"></script>
 <div class="header">
   <img class="blog-image" mat-card-image src="{{ blogData.imageUri }}" alt="user photo">
   <div class="blog-title-container inline">
@@ -9,18 +10,25 @@
 <div class="scroll-list">
   <app-post *ngFor="let post of posts" [post]="post"></app-post>
 </div>
-<mat-form-field>
+<!--<mat-form-field>
   <div class="md-form md-outline">
   <label>
-    <input matInput type="text" placeholder="Title" class="form-control" >
+    <input matInput type="text" placeholder="Title" class="form-control">
   </label>
 </div>
-</mat-form-field>
+</mat-form-field>-->
 
-<mat-form-field>
-  <label class="inline" for="input_text"></label>
+<div class="container">
+  <div class="md-form">
+    <input mdbInput type="text" id="form1" class="form-control">
+    <label for="form1" class="">Example label</label>
+  </div>
+</div>
+
+<!--<mat-form-field>
+  <label for="input_text"></label>
   <textarea class="md-textarea form-control " rows="3" id="input_text" type="text" length="120" matInput></textarea>
 </mat-form-field>
-<button mat-raised-button color="accent">POST</button>
+<button mat-raised-button color="accent">POST</button>-->
 
 

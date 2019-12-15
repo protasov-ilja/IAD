@@ -28,7 +28,8 @@ export class RegistrationComponent implements OnInit {
       this.snackBar.open('Successffuly registrated!', null, {
         duration: 2000
       });
-      this.router.navigate([`/home`]);
+      console.log('registrated!');
+      await this.router.navigateByUrl('/main');
     } else {
       this.snackBar.open('Ops, sth went wrong! Please try later', null, {
         duration: 2000
@@ -37,6 +38,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   public async login(): Promise<void> {
-    this.router.navigateByUrl('/login');
+    await this.router.navigateByUrl('/login');
   }
 }

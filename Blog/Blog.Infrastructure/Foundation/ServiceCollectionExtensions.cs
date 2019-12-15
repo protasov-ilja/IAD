@@ -23,6 +23,7 @@ namespace Blog.Infrastructure.Foundation
 			services.AddScoped<IUserBlogRepository, UserBlogRepository>();
 			services.AddScoped<ISubscriberOfBlogRepository, SubscribersOfBlogRepository>();
 			services.AddScoped<IPostRepository, PostRepository>();
+			services.AddScoped<ILikeInPostRepository, LikeInPostRepository>();
 
 			// Other
 			services.AddScoped<IUnitOfWork, UnitOfWork<BlogDbContext>>();

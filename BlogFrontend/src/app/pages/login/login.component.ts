@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
         duration: 200
       });
 
-      this.router.navigate([`/home`]);
+      this.router.navigate([`/main`]);
     } else {
       this.snackBar.open('Wrong data!', null, {
         duration: 2000

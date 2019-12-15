@@ -10,10 +10,10 @@
   </div>
   <mat-card-actions class="buttons inline-block">
     <button mat-raised-button color="primary" (click)="readBlog(blog.id)">Read</button>
-    <div *ngIf=!blog.isSubscribed class="inline-block">
+    <div *ngIf=!blog.alreadySubscribed class="inline-block">
       <button mat-raised-button color="accent" (click)="subscribe(blog.id)">Subscribe</button>
     </div>
-    <div *ngIf=blog.isSubscribed class="inline-block">
+    <div *ngIf=blog.alreadySubscribed class="inline-block">
       <button mat-raised-button color="warn" (click)="unsubscribe(blog.id)">Unsubscribe</button>
     </div>
   </mat-card-actions>

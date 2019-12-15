@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers
 {
 	[Route("api/[controller]")]
-	[AllowAnonymous]
 	[ApiController]
 	public class HomeController : Controller
 	{
@@ -21,10 +20,22 @@ namespace Blog.Api.Controllers
 			_blogsService = blogsService;
 		}
 
+		[Authorize]
 		[HttpGet("user-subscriptions")]
 		public async Task<ResponseDto<List<BlogDto>>> GetSubscriptions([FromQuery] int userId)
 		{
-			var data = await _blogsService.GetUserSubscriptions(userId);
+			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+			if (login == null)
+			{
+				return new ResponseDto <List<BlogDto>>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "such login not found!"
+				};
+			}
+
+			var data = await _blogsService.GetUserSubscriptions(login.Value);
 
 			if (!data.IsSuccessCreated)
 			{
@@ -49,10 +60,5 @@ namespace Blog.Api.Controllers
 
 			return new string[] { login?.Value, "Ilya" };
 		}
-
-		//public async Task<IActionResult> ReadBlog(string blogData)
-		//{
-		//	throw new NotImplementedException("register logic not implemented");
-		//}
 	}
 }

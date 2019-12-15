@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {BlogDto} from '../../dtos/blog/blog.dto';
 
 export interface BlogData {
   id: number;
@@ -15,7 +16,7 @@ export interface BlogData {
   styleUrls: ['./blog-item.component.scss']
 })
 export class BlogItemComponent implements OnInit {
-  @Input() blog: BlogData;
+  @Input() blog: BlogDto;
 
   constructor(private router: Router) { }
 
@@ -23,11 +24,11 @@ export class BlogItemComponent implements OnInit {
   }
 
   public subscribe(blogId: number) {
-    this.blog.isSubscribed = true;
+    this.blog.alreadySubscribed = true;
   }
 
   public unsubscribe(blogId: number) {
-    this.blog.isSubscribed = false;
+    this.blog.alreadySubscribed = false;
   }
 
   public readBlog(blogId: number) {

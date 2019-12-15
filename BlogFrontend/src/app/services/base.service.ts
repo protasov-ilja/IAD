@@ -2,11 +2,12 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthResponseDto } from '../dtos/account/auth-response.dto';
 import { CookieService } from 'ngx-cookie-service';
+import {UpdateTokensRequestDto} from '../dtos/account/update-tokens-request.dto';
 
 export interface Response<R> {
-  result: R;
   httpStatus: number;
   errorInfo: string;
+  result: R;
 }
 
 export class BaseService {
@@ -107,8 +108,12 @@ export class BaseService {
 
   private async updateTokens(): Promise<boolean> {
     const accountUrl = `${this.accountBaseUrl}/update-tokens`;
-    const refreshToken = this.cookieService.get(this.refreshTokenField);
-    const newTokenResponse: Response<AuthResponseDto> = await this.tryPost(accountUrl, { refreshToken: refreshToken });
+    const refreshT = this.cookieService.get(this.refreshTokenField);
+    const dto = { refreshToken: refreshT } as UpdateTokensRequestDto;
+    console.log('updateTokens');
+    console.log(refreshT);
+
+    const newTokenResponse: Response<AuthResponseDto> = await this.tryPost(accountUrl, dto);
     if (!newTokenResponse.result) {
       return false;
     }
@@ -128,7 +133,7 @@ export class BaseService {
 
     return {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${ accessToken }`
+        'Authorization': `Bearer ${ accessToken }`
       }),
     };
   }
