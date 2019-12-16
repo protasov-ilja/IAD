@@ -5,6 +5,9 @@ import {BlogDataDto} from '../../dtos/blog/blog-data.dto';
 import {PostDto} from '../../dtos/post/post.dto';
 import {PostCreationDto} from '../../dtos/post/post-creation.dto';
 import {NgForm} from '@angular/forms';
+import {LikesDto} from '../../dtos/like/likes.dto';
+import {AccountService} from '../../services/account.service';
+import {MatSnackBar} from '@angular/material';
 
 export interface UserBlogData {
   blogId: number;
@@ -25,7 +28,7 @@ export class ProfileComponent implements OnInit {
 
   public blogData: BlogDataDto;
 
-  constructor(private router: Router, private blogsService: BlogsService) {
+  constructor(private router: Router, private blogsService: BlogsService, private snackBar: MatSnackBar) {
     this.blogsService.getUserBlogData().then((data: BlogDataDto) => {
       if (!data) {
         return;
@@ -72,7 +75,6 @@ export class ProfileComponent implements OnInit {
   }
 
   public createPost(form: NgForm) {
-
     const post = {
       title: form.value.title,
       text: form.value.text,
@@ -80,7 +82,15 @@ export class ProfileComponent implements OnInit {
       blogId: this.blogData.id,
     } as PostCreationDto;
     console.log('post: ' + post.blogId);
-    this.blogsService.createPost(post).then();
+    this.blogsService.createPost(post).then((bool: boolean) => {
+      if (!bool) {
+        this.snackBar.open('Post not created!', null, {
+          duration: 2000
+        });
+      } else {
+        window.location.reload();
+        this.router.navigate(['/profile']);
+      }
+    });
   }
-
 }

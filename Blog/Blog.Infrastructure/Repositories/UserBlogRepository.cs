@@ -27,6 +27,12 @@ namespace Blog.Infrastructure.Repositories
 								   select new BlogDto { Id = userBlog.Id, Name = userBlog.Name, Info = userBlog.Info, ImageUri = user.ImageUri, UserId = userBlog.UserId }
 								   ).ToList();
 
+			foreach(var d in allBlogs)
+			{
+				var subscribedBlogs = (from subscribe in _context.Set<SubscriberOfBlog>().Where(x => x.UserId == userId && x.UserBlogId == d.Id) select new SubscriberOfBlog { Id = subscribe.Id, UserId = subscribe.UserId, UserBlogId = subscribe.UserBlogId }).ToList();
+				d.AlreadySubscribed = subscribedBlogs.Count > 0;
+			}
+
 
 			return allBlogs;
 		}
@@ -77,8 +83,8 @@ namespace Blog.Infrastructure.Repositories
 					   join userBlog in b on subscribe.UserBlogId equals userBlog.Id
 					   select new { userBlog.Id, userBlog.Name, userBlog.Info }).ToList();*/
 
-			var subscribedBlogs = (from subscribe in _context.Set<SubscriberOfBlog>()
-								   join user in _context.Set<User>().Where(x => x.Id == userId) on subscribe.UserId equals user.Id
+			var subscribedBlogs = (from subscribe in _context.Set<SubscriberOfBlog>().Where(x => x.UserId == userId)
+								   join user in _context.Set<User>() on subscribe.UserId equals user.Id
 								   join userBlog in _context.Set<UserBlog>() on subscribe.UserBlogId equals userBlog.Id
 								   select new BlogDto { Id = userBlog.Id, Name = userBlog.Name, Info = userBlog.Info, ImageUri = user.ImageUri, UserId = userBlog.UserId }
 								   ).ToList();

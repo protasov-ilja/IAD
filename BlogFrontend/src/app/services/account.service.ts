@@ -51,4 +51,9 @@ export class AccountService extends BaseService {
 
     return true;
   }
+
+  public async logOut() {
+    this.cookieService.set(this.accessTokenField, '');
+    this.cookieService.set(this.refreshTokenField, '');
+  }
 }

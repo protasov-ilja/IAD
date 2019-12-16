@@ -73,4 +73,16 @@ export class BlogsService extends BaseService {
 
     return await this.post(url, dto);
   }
+
+  public async subscribeOnBlog(blogId: number): Promise<boolean> {
+    const url = `${ this.blogControllerUrl }/subscribe`;
+
+    return await this.post(url, blogId);
+  }
+
+  public async unsubscribeOnBlog(blogId: number): Promise<boolean> {
+    const url = `${ this.blogControllerUrl }/unsubscribe`;
+
+    return await this.post(url, blogId);
+  }
 }

@@ -20,6 +20,7 @@ import {MatCardModule, MatIconModule, MatMenuModule, MatSidenavModule, MatToolba
 import { CookieService } from 'ngx-cookie-service';
 import { AccountService } from './services/account.service';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { LogOutComponent } from './pages/log-out/log-out.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
     OtherBlogComponent,
     SearchPageComponent,
     PostComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    LogOutComponent
   ],
   imports: [
     MaterialDesignModule,

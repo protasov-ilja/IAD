@@ -1,0 +1,11 @@
+<script src="../login/login.component.spec.ts"></script>
+<div class="header">
+  <img class="blog-image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="user photo">
+  <div class="blog-title-container inline">
+    <h1>{{ blogData?.name }}</h1>
+    <h3> {{ blogData?.info }}</h3>
+  </div>
+</div>
+<div class="scroll-list">
+  <app-post *ngFor="let post of posts" [post]="post"></app-post>
+</div>

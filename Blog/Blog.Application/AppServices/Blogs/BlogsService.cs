@@ -47,6 +47,11 @@ namespace Blog.Application.AppServices.Blogs
 				};
 			}
 
+			foreach (var s in subscribedUserBlogs)
+			{
+				s.AlreadySubscribed = true;
+			}
+
 			return new BlogsData
 			{
 				IsSuccessCreated = true,
