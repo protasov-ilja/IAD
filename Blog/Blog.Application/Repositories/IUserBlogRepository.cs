@@ -11,5 +11,7 @@ namespace Blog.Application.Repositories
 		List<BlogDto> GetSubscribedBlogs(int userId);
 		Task<UserBlog> GetInfoByUserId(int userId);
 		Task<UserBlog> GetAsync(int id);
+		Task<UserBlog> GetAsyncByUserId(int userId);
+		List<BlogDto> GetAllBlogs(int userId);
 	}
 }

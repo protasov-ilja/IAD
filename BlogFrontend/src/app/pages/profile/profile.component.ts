@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {PostData} from './post/post.component';
 import {Router} from '@angular/router';
+import {BlogsService} from '../../services/blogs.service';
+import {BlogDataDto} from '../../dtos/blog/blog-data.dto';
+import {PostDto} from '../../dtos/post/post.dto';
+import {PostCreationDto} from '../../dtos/post/post-creation.dto';
+import {NgForm} from '@angular/forms';
 
 export interface UserBlogData {
   blogId: number;
@@ -17,40 +21,66 @@ export interface UserBlogData {
 })
 
 export class ProfileComponent implements OnInit {
-  public posts: PostData[];
+  public posts: PostDto[];
 
-  public blogData: UserBlogData;
+  public blogData: BlogDataDto;
 
-  constructor(private router: Router) {
-    this.blogData = {
-      blogId: 1,
-      userId: 1,
-      name: 'Blog Name',
-      info: 'Lore ipsune Lore ipsune Lore ipsune Lore ipsune Lore ipsune',
-      imageUri: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-    };
+  constructor(private router: Router, private blogsService: BlogsService) {
+    this.blogsService.getUserBlogData().then((data: BlogDataDto) => {
+      if (!data) {
+        return;
+      }
 
-    this.posts = [];
+      this.blogData = data;
+      if (!this.blogData.name) {
+        this.blogData.name = 'standart name';
+      }
 
-    for (let i = 0; i < 4; ++i) {
-      this.posts.push({
-        id: i,
-        userId: 1,
-        title: `Post ${i}`,
-        text: 'Post 1 Lore ipsune Lore ipsune Lore ipsune Lore ipsune Lore ipsune',
-        date: Date.now(),
-        imageUri: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-        likesAmount: 2,
-        dislikesAmount: 1
-      });
-    }
+      this.posts = data.posts;
+    });
+
+    // this.blogData = {
+    //   blogId: 1,
+    //   userId: 1,
+    //   name: 'Blog Name',
+    //   info: 'Lore ipsune Lore ipsune Lore ipsune Lore ipsune Lore ipsune',
+    //   imageUri: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
+    // };
+    //
+    // this.posts = [];
+    //
+    // for (let i = 0; i < 4; ++i) {
+    //   this.posts.push({
+    //     id: i,
+    //     userId: 1,
+    //     title: `Post ${i}`,
+    //     text: 'Post 1 Lore ipsune Lore ipsune Lore ipsune Lore ipsune Lore ipsune',
+    //     date: Date.now(),
+    //     imageUri: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
+    //     likesAmount: 2,
+    //     dislikesAmount: 1
+    //   });
+    // }
   }
 
   ngOnInit() {
+
   }
 
   public edit() {
     this.router.navigate(['/profile/edit']);
+  }
+
+  public createPost(form: NgForm) {
+
+    const post = {
+      title: form.value.title,
+      text: form.value.text,
+      publishDateInUtc: '',
+      blogId: this.blogData.id,
+    } as PostCreationDto;
+    console.log('post: ' + post.blogId);
+    this.blogsService.createPost(post).then();
   }
 
 }

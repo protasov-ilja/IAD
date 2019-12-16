@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers
 {
 	[Route("api/[controller]")]
+	[Authorize]
 	[ApiController]
 	public class HomeController : Controller
 	{
@@ -20,15 +21,15 @@ namespace Blog.Api.Controllers
 			_blogsService = blogsService;
 		}
 
-		[Authorize]
+		
 		[HttpGet("user-subscriptions")]
-		public async Task<ResponseDto<List<BlogDto>>> GetSubscriptions([FromQuery] int userId)
+		public async Task<ResponseDto<List<BlogDto>>> GetSubscriptions()
 		{
 			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
 			if (login == null)
 			{
-				return new ResponseDto <List<BlogDto>>
+				return new ResponseDto<List<BlogDto>>
 				{
 					HttpStatus = 401,
 					ErrorInfo = "such login not found!"

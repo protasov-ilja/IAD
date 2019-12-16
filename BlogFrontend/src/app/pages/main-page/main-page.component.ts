@@ -12,11 +12,13 @@ import {BlogDto} from '../../dtos/blog/blog.dto';
 export class MainPageComponent implements OnInit {
   public subscribedBlogs: BlogDto[];
 
-  constructor(private blogsService: BlogsService) {
+  constructor(private blogsService: BlogsService, private router: Router) {
     blogsService.getUserSubscriptions().then((blogDtos: BlogDto[]) => {
       if (!blogDtos) {
         return;
       }
+
+      this.subscribedBlogs = blogDtos;
     });
 
     // this.subscribedBlogs = [];
@@ -35,4 +37,13 @@ export class MainPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  public showBlog(blogId: number) {
+    this.blogsService.getIsUserBlog(blogId).then((bool: boolean) => {
+      if (!bool) {
+        this.router.navigate(['/other-blog']);
+      } else {
+        this.router.navigate(['/profile']);
+      }
+    });
+  }
 }

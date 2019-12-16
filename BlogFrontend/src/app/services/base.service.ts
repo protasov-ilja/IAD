@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { AuthResponseDto } from '../dtos/account/auth-response.dto';
 import { CookieService } from 'ngx-cookie-service';
 import {UpdateTokensRequestDto} from '../dtos/account/update-tokens-request.dto';
@@ -44,6 +44,32 @@ export class BaseService {
     }
   }
 
+  protected async getWithParams<HttpResult>(url: string, params: HttpParams): Promise<HttpResult> {
+    let response: Response<HttpResult> = await this.tryGetWithParams(url, params);
+
+    if (response.httpStatus === 200) {// TODO: add constants class
+      return response.result;
+    }
+
+    if (response.httpStatus !== 401) {
+      return null;
+    }
+
+    const isTokensUpdated: boolean = await this.updateTokens();
+    if (!isTokensUpdated) {
+      await this.router.navigate([`/login`]);
+      // throw 'You are not authorized';
+    }
+
+    response = await this.tryGetWithParams(url, params);
+    if (response.httpStatus === 200) {
+      return response.result;
+    } else {
+      await this.router.navigate([`/login`]);
+      // throw 'You are not authorized';
+    }
+  }
+
   protected async post<HttpRequest, HttpResponse>(url: string, request: HttpRequest): Promise<HttpResponse> {
     let response: Response<HttpResponse> = await this.tryPost(url, request);
 
@@ -73,14 +99,24 @@ export class BaseService {
   private async tryGet<HttpR>(url: string): Promise<Response<HttpR>> {
     const httpOptions = this.generateHttpOptions();
 
-    const result = {
-      result: null,
-    } as Response<HttpR>;
+    let result = {} as Response<HttpR>;
 
     try {
-      const response: HttpR = await this.http.get<HttpR>(url, httpOptions).toPromise();
-      result.httpStatus = 200;
-      result.result = response;
+      result = await this.http.get<Response<HttpR>>(url, httpOptions).toPromise();
+    } catch (error) {
+      result.httpStatus = error.status;
+    }
+
+    return result;
+  }
+
+  private async tryGetWithParams<HttpR>(url: string, params: HttpParams): Promise<Response<HttpR>> {
+    const httpOptions = this.generateHttpOptionsWithParams(params);
+
+    let result = {} as Response<HttpR>;
+
+    try {
+      result = await this.http.get<Response<HttpR>>(url, httpOptions).toPromise();
     } catch (error) {
       result.httpStatus = error.status;
     }
@@ -91,14 +127,10 @@ export class BaseService {
   private async tryPost<HttpRequest, HttpResponse>(url: string, request: HttpRequest): Promise<Response<HttpResponse>> {
     const httpOptions = this.generateHttpOptions();
 
-    const result = {
-      result: null,
-    } as Response<HttpResponse>;
+    let result = {} as Response<HttpResponse>;
 
     try {
-      const response: HttpResponse = await this.http.post<HttpResponse>(url, request, httpOptions).toPromise();
-      result.httpStatus = 200;
-      result.result = response;
+      result = await this.http.post<Response<HttpResponse>>(url, request, httpOptions).toPromise();
     } catch (error) {
       result.httpStatus = error.status;
     }
@@ -135,6 +167,20 @@ export class BaseService {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${ accessToken }`
       }),
+    };
+  }
+
+  private generateHttpOptionsWithParams(httpParams: HttpParams): { headers: HttpHeaders, params: HttpParams } {
+    let accessToken = this.cookieService.get(this.accessTokenField);
+    if (!accessToken) {
+      accessToken = '';
+    }
+
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${ accessToken }`
+      }),
+      params: httpParams,
     };
   }
 }

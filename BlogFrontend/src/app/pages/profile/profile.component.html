@@ -1,34 +1,31 @@
 <script src="../login/login.component.spec.ts"></script>
 <div class="header">
-  <img class="blog-image" mat-card-image src="{{ blogData.imageUri }}" alt="user photo">
+  <img class="blog-image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="user photo">
   <div class="blog-title-container inline">
-    <h1>{{ blogData.name }}</h1>
-    <h3> {{ blogData.info }}</h3>
+    <h1>{{ blogData?.name }}</h1>
+    <h3> {{ blogData?.info }}</h3>
   </div>
   <button class="inline" mat-raised-button color="primary" (click)="edit()">Edit</button>
 </div>
 <div class="scroll-list">
   <app-post *ngFor="let post of posts" [post]="post"></app-post>
 </div>
-<!--<mat-form-field>
-  <div class="md-form md-outline">
+
+<form #postForm="ngForm" (ngSubmit)="createPost(postForm)">
+<mat-form-field>
   <label>
-    <input matInput type="text" placeholder="Title" class="form-control">
+    <input class="form-control" name="title" ngModel  matInput placeholder="Title" required>
   </label>
-</div>
-</mat-form-field>-->
-
-<div class="container">
-  <div class="md-form">
-    <input mdbInput type="text" id="form1" class="form-control">
-    <label for="form1" class="">Example label</label>
-  </div>
-</div>
-
-<!--<mat-form-field>
-  <label for="input_text"></label>
-  <textarea class="md-textarea form-control " rows="3" id="input_text" type="text" length="120" matInput></textarea>
 </mat-form-field>
-<button mat-raised-button color="accent">POST</button>-->
+
+<mat-form-field>
+  <label>
+    <textarea name="postText" ngModel rows="3" matInput placeholder="Text" required></textarea>
+  </label>
+</mat-form-field>
+
+<button [disabled]="postForm.invalid" (click)="createPost(postForm)" mat-raised-button color="accent" type="button">POST</button>
+</form>
+
 
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Blog.Api.Dtos;
+using Blog.Api.Dtos.Blogs;
 using Blog.Application.AppServices.Blogs;
 using Blog.Application.AppServices.Subscription;
 using Microsoft.AspNetCore.Authorization;
@@ -92,14 +93,55 @@ namespace Blog.Api.Controllers
 		}
 		#endregion
 
-		[HttpGet("show")]
-		public async Task<ResponseDto<BlogTotalData>> ShowBlog(int blogId)
+		[HttpGet("show-user-blog")]
+		public async Task<ResponseDto<BlogDataDto>> ShowBlog()
 		{
 			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
 			if (login == null)
 			{
-				return new ResponseDto<BlogTotalData>
+				return new ResponseDto<BlogDataDto>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "such login not found!"
+				};
+			}
+
+			var blogData = await _blogsService.GetUserBlogData(login.Value);
+
+			if (!blogData.IsSuccessCreated)
+			{
+				return new ResponseDto<BlogDataDto>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "Error, blog data not found!"
+				};
+			}
+
+			var data = new BlogDataDto
+			{
+				Id = blogData.Id,
+				Info = blogData.Info,
+				Name = blogData.Name,
+				UserId = blogData.UserId,
+				Posts = blogData.Posts
+			};
+
+			return new ResponseDto<BlogDataDto>
+			{
+				HttpStatus = 200,
+				Result = data
+			};
+		}
+
+		[HttpGet("show-blog")]
+		public async Task<ResponseDto<BlogDataDto>> ShowBlog(int blogId)
+		{
+			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+			if (login == null)
+			{
+				return new ResponseDto<BlogDataDto>
 				{
 					HttpStatus = 401,
 					ErrorInfo = "such login not found!"
@@ -108,9 +150,50 @@ namespace Blog.Api.Controllers
 
 			var blogData = await _blogsService.GetBlogData(blogId, login.Value);
 
-			return new ResponseDto<BlogTotalData>
+			if (!blogData.IsSuccessCreated)
+			{
+				return new ResponseDto<BlogDataDto>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "Error, blog data not found!"
+				};
+			}
+
+			var data = new BlogDataDto
+			{
+				Id = blogData.Id,
+				Info = blogData.Info,
+				Name = blogData.Name,
+				UserId = blogData.UserId,
+				Posts = blogData.Posts
+			};
+
+			return new ResponseDto<BlogDataDto>
 			{
 				HttpStatus = 200,
+				Result = data
+			};
+		}
+
+		[HttpGet("is-user-blog")]
+		public async Task<ResponseDto<bool>> IsUsersBlog(int blogId)
+		{
+			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+			if (login == null)
+			{
+				return new ResponseDto<bool>
+				{
+					HttpStatus = 401,
+					ErrorInfo = "such login not found!"
+				};
+			}
+
+			var blogData = await _blogsService.IsUserBlog(blogId, login.Value);
+
+			return new ResponseDto<bool>
+			{
+				HttpStatus = 401,
 				Result = blogData
 			};
 		}
@@ -181,7 +264,7 @@ namespace Blog.Api.Controllers
 		}
 		#endregion
 
-		[HttpPost("create-post")]
+		[HttpPost("create-post-n")]
 		public async Task<ResponseDto<bool>> CreatePost([FromBody] PostCreationDto postCreationDto)
 		{
 			var login = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
@@ -200,7 +283,7 @@ namespace Blog.Api.Controllers
 				BlogId = postCreationDto.BlogId,
 				Title = postCreationDto.Title,
 				Text = postCreationDto.Text,
-				PublishDateOnUtc = postCreationDto.PublishDateInUtc.Value
+				PublishDateOnUtc = DateTime.UtcNow
 			};
 
 			await _blogsService.CreatePost(post, login.Value);

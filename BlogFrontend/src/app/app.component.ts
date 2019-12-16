@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {CookieService} from 'ngx-cookie-service';
+import {AccountService} from './services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'BlogFrontend';
 
+  constructor(private accountService: AccountService) {
+
+  }
+
   public isAuthorized(): boolean {
-    return true;
+    return this.accountService.isAuthorized();
   }
 }

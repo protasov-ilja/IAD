@@ -67,7 +67,40 @@ namespace Blog.Application.AppServices.Blogs
 				};
 			}
 
-			var blogInfo = await _blogRepository.GetAsync(user.Id);
+			var blogInfo = await _blogRepository.GetAsync(blogId);
+
+			var postsInfo = _postRepository.GetPostsByBlog(blogId);
+
+			for (var i = 0; i < postsInfo.Count; ++i)
+			{
+				postsInfo[i].LikesData = _likesRepository.GetLikesOfPost(postsInfo[i].Id, user.Id);
+			}
+
+			return new BlogTotalData
+			{
+				IsSuccessCreated = true,
+				Id = blogInfo.Id,
+				Name = blogInfo.Name,
+				Info = blogInfo.Info,
+				UserId = blogInfo.UserId,
+				Posts = postsInfo
+			};
+		}
+
+		public async Task<BlogTotalData> GetUserBlogData(string login)
+		{
+			var user = await _userRepository.GetAsync(login);
+
+			if (user == null)
+			{
+				return new BlogTotalData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "such login not found"
+				};
+			}
+
+			var blogInfo = await _blogRepository.GetAsyncByUserId(user.Id);
 
 			var postsInfo = _postRepository.GetPostsByBlog(blogInfo.Id);
 
@@ -186,7 +219,7 @@ namespace Blog.Application.AppServices.Blogs
 				};
 			}
 
-			var blogInfo = await _blogRepository.GetAsync(user.Id);
+			var blogInfo = await _blogRepository.GetAsync(postDto.BlogId);
 
 			if (blogInfo == null)
 			{
@@ -258,6 +291,51 @@ namespace Blog.Application.AppServices.Blogs
 			{
 				IsSuccessCreated = true
 			};
+		}
+
+		public async Task<BlogsData> GetAllBlogs(string login)
+		{
+			var user = await _userRepository.GetAsync(login);
+
+			if (user == null)
+			{
+				return new BlogsData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "such login not found"
+				};
+			}
+
+			var allBlogs = _blogRepository.GetAllBlogs(user.Id);
+
+			if (allBlogs == null)
+			{
+				return new BlogsData
+				{
+					IsSuccessCreated = false,
+					ErrorInfo = "Error in query!"
+				};
+			}
+
+			return new BlogsData
+			{
+				IsSuccessCreated = true,
+				Blogs = allBlogs
+			};
+		}
+
+		public async Task<bool> IsUserBlog(int blogId, string login)
+		{
+			var user = await _userRepository.GetAsync(login);
+
+			if (user == null)
+			{
+				return false;
+			}
+
+			var blogInfo = await _blogRepository.GetAsync(blogId);
+
+			return blogInfo.UserId == user.Id;
 		}
 	}
 }

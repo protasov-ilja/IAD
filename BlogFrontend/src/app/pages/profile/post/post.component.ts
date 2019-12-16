@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import DateTimeFormat = Intl.DateTimeFormat;
+import {Router} from '@angular/router';
+import {BlogsService} from '../../../services/blogs.service';
+import {PostDto} from '../../../dtos/post/post.dto';
 
 export interface PostData {
   id: number;
@@ -19,18 +22,18 @@ export interface PostData {
 })
 export class PostComponent implements OnInit {
 
-  @Input() post: PostData;
+  @Input() post: PostDto;
 
-  constructor() { }
+  constructor(private router: Router, private blogsService: BlogsService) { }
 
   ngOnInit() {
   }
 
   public setLike() {
-    this.post.likesAmount++;
+    this.post.likesData.positiveLikes++;
   }
 
   public setDislike() {
-    this.post.dislikesAmount++;
+    this.post.likesData.negativeLikes++;
   }
 }

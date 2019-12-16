@@ -32,6 +32,10 @@ export class AccountService extends BaseService {
     return true;
   }
 
+  public isAuthorized(): boolean {
+    return this.cookieService.get(this.accessTokenField).length > 10;
+  }
+
   public async authenticate(authRequest: AuthRequestDto): Promise<boolean> {
     const url = `${this.accountUrl}/authorize`;
 

@@ -6,6 +6,7 @@ import {MainPageComponent} from './pages/main-page/main-page.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {SearchPageComponent} from './pages/search-page/search-page.component';
 import {EditProfileComponent} from './pages/edit-profile/edit-profile.component';
+import {OtherBlogComponent} from './pages/other-blog/other-blog.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'main', component: MainPageComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'blogs', component: SearchPageComponent },
-  { path: 'profile/edit', component : EditProfileComponent }
+  { path: 'profile/edit', component : EditProfileComponent },
+  { path: 'other-blog', component : OtherBlogComponent }
 ];
 
 @NgModule({

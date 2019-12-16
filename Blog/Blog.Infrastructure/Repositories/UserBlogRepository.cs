@@ -20,9 +20,25 @@ namespace Blog.Infrastructure.Repositories
 			_context = context;
 		}
 
+		public List<BlogDto> GetAllBlogs(int userId)
+		{
+			var allBlogs = (from userBlog in _context.Set<UserBlog>().Where(x => x.UserId != userId)
+								   join user in _context.Set<User>() on userBlog.UserId equals user.Id
+								   select new BlogDto { Id = userBlog.Id, Name = userBlog.Name, Info = userBlog.Info, ImageUri = user.ImageUri, UserId = userBlog.UserId }
+								   ).ToList();
+
+
+			return allBlogs;
+		}
+
 		public async Task<UserBlog> GetAsync(int id)
 		{
 			return await Entities.FirstOrDefaultAsync(blog => blog.Id == id);
+		}
+
+		public async Task<UserBlog> GetAsyncByUserId(int userId)
+		{
+			return await Entities.FirstOrDefaultAsync(blog => blog.UserId == userId);
 		}
 
 		public async Task<UserBlog> GetInfoByUserId(int userId)
